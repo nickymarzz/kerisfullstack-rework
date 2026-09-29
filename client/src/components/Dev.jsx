@@ -1,11 +1,12 @@
 import React from "react";
+import placeholderImg from "../assets/img/imgplaceholder.jpg";
 
 const Dev = () => {
   return (
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 max-w-7xl">
 
         <div className="max-w-sm w-full bg-white rounded-2xl shadow-lg overflow-hidden">
-        <img src={profile_pic} alt="Profile" className="w-full h-48 object-cover" />
+        <img src={placeholderImg} alt="Profile" className="w-full h-48 object-cover" />
         <div className="p-4">
           <h2 className="text-xl font-semibold flex items-center gap-2">
             <span role="img" aria-label="camera">📸</span> Taw Lee Lik

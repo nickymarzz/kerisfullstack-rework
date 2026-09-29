@@ -1,3 +1,4 @@
+/* global jQuery, AOS */
 !(function ($) {
   "use strict";
 
@@ -74,7 +75,7 @@
     );
     $("body").append('<div class="mobile-nav-overly"></div>');
 
-    $(document).on("click", ".mobile-nav-toggle", function (e) {
+    $(document).on("click", ".mobile-nav-toggle", function () {
       $("body").toggleClass("mobile-nav-active");
       $(".mobile-nav-toggle i").toggleClass("ri-menu-line ri-close-line");
       $(".mobile-nav-overly").toggle();

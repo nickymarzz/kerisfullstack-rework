@@ -70,7 +70,7 @@ const RichTextEditor = ({ value, onChange }) => {
     if (editor && value !== htmlContent) {
       editor.commands.setContent(value || "<p></p>");
     }
-  }, [value, editor]);
+  }, [value, editor, htmlContent]);
 
   const handleAddLink = () => {
     if (linkUrl.trim() === "") return;
