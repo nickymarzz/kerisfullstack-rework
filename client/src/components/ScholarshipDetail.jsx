@@ -62,11 +62,12 @@ const ScholarshipDetail = () => {
         <strong>
           Sponsor not found
         </strong>
-        <div className="text-center m-6 text-white">
-          <Link to="/sponsors">
-            <button className="bg-[--color-primary] hover:bg-[--color-light] hover:text-[--color-secondary] px-4 py-2 rounded-md">
-              Back to Sponsors List
-            </button>
+        <div className="text-center m-6">
+          <Link
+            to="/scholarship"
+            className="inline-block bg-[--color-primary] text-white hover:bg-[--color-light] hover:text-[--color-secondary] px-4 py-2 rounded-md font-medium transition"
+          >
+            Back to Scholarships List
           </Link>
         </div>
       </div>

@@ -7,8 +7,9 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    Cookies.remove("user"); // Clear user session
-    navigate("/admin"); // Redirect to login
+    Cookies.remove("user");
+    localStorage.removeItem("token");
+    navigate("/admin/login");
   };
 
   return (

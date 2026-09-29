@@ -10,7 +10,10 @@ const ProtectedLayout = ({ children }) => {
   useEffect(() => {
     const checkAuth = () => {
       const user = Cookies.get("user");
-      if (!user) {
+      const token = localStorage.getItem("token");
+      if (!user || !token) {
+        Cookies.remove("user");
+        localStorage.removeItem("token");
         navigate("/admin/login");
       } else {
         setIsAuthenticated(true);
