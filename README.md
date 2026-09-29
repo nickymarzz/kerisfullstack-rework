@@ -61,17 +61,22 @@ KERIS Full-Stack is a web platform designed to provide students with resources, 
 ### Client Routes (Public)
 
 * `/` — Home Page (Hero, Mission, Highlights)
-* `/scholars` — Scholar Mentors Directory
-* `/scholars/:id` — Scholar Detail Profile
-* `/scholarships` — Scholarship Directory
-* `/scholarships/:id` — Scholarship Detail
+* `/scholar` — Scholar Mentors Directory
+* `/scholar/detail/:id` — Scholar Detail Profile
+* `/scholarship` — Scholarship Directory
+* `/scholarship/detail/:id` — Scholarship Detail
+* `/dev` — Development Sandbox Page
 
 ### Admin Routes (Protected)
 
-* `/login` — Admin Authentication
-* `/admin` — Admin Dashboard
-* `/admin/scholars` — Manage Scholars (Add / Edit / Delete)
-* `/admin/scholarships` — Manage Scholarships (Add / Edit / Delete)
+* `/admin/login` — Admin Authentication
+* `/admin` — Admin Dashboard Overview
+* `/admin/scholar-list` — Manage Scholars Table
+* `/admin/scholar-list/add` — Add New Scholar
+* `/admin/scholar-list/edit/:id` — Edit Scholar Profile
+* `/admin/scholarship-list` — Manage Scholarships Table
+* `/admin/scholarship-list/add` — Add New Scholarship
+* `/admin/scholarship-list/edit/:id` — Edit Scholarship Details
 
 ---
 
@@ -79,12 +84,14 @@ KERIS Full-Stack is a web platform designed to provide students with resources, 
 
 ```text
 kerisfullstack/
-├── package.json              # Monorepo root runner (concurrently)
+├── package.json              # Monorepo root runner (concurrently & seed)
 ├── client/                   # Frontend Vite + React application
+│   ├── public/               # Static assets, favicon, robots.txt, sitemap
 │   ├── src/
 │   │   ├── components/       # Pages, forms, lists, editors
-│   │   ├── assets/           # Styles, images, scripts
-│   │   └── App.jsx           # App routes and layout
+│   │   ├── assets/           # Styles, images, vendor scripts
+│   │   ├── App.jsx           # App layout (Navbar, Outlet, Footer)
+│   │   └── main.jsx          # React entry point & Router configuration
 │   ├── tailwind.config.js    # TailwindCSS configuration
 │   ├── vite.config.js        # Vite configuration
 │   └── .env.example          # Client environment template
@@ -93,6 +100,7 @@ kerisfullstack/
 │   │   └── auth.js           # JWT auth handler & middleware
 │   ├── db/
 │   │   ├── connection.js     # MongoDB connection
+│   │   ├── seed.js           # Database seeder (sample scholars & sponsors)
 │   │   └── supabase.js       # Supabase Storage helper
 │   ├── record/
 │   │   └── record.js         # API routes for scholars & sponsors
