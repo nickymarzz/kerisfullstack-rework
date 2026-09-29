@@ -1,6 +1,7 @@
 /* ------ venobox.css --------*/
 .vbox-overlay *, .vbox-overlay *:before, .vbox-overlay *:after{
     -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     box-sizing:border-box;
@@ -201,7 +202,6 @@ or at least read this note: http://i.imgur.com/7C0ws9e.gif
     bottom: 0;
     overflow-x: hidden;
     overflow-y: scroll;
-    overflow-scrolling: touch;
     -webkit-overflow-scrolling: touch;
     z-index: 20;
     max-height: 100%;
@@ -239,7 +239,7 @@ user-select: none;
     margin-left: 200px !important;
 }
 .vbox-animated{
-    webkit-transition: margin 300ms ease-out;
+    -webkit-transition: margin 300ms ease-out;
     transition: margin 300ms ease-out;
 }
 
