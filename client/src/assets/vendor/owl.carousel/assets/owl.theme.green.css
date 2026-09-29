@@ -34,9 +34,7 @@
   text-align: center;
   -webkit-tap-highlight-color: transparent; }
   .owl-theme .owl-dots .owl-dot {
-    display: inline-block;
-    zoom: 1;
-    *display: inline; }
+    display: inline-block; }
     .owl-theme .owl-dots .owl-dot span {
       width: 10px;
       height: 10px;
@@ -44,6 +42,7 @@
       background: #D6D6D6;
       display: block;
       -webkit-backface-visibility: visible;
+      backface-visibility: visible;
       transition: opacity 200ms ease;
       border-radius: 30px; }
     .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span {
