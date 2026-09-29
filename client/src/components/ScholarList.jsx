@@ -73,6 +73,7 @@ export default function ScholarRecords() {
   async function deleteRecord(id) {
     await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/${id}`, {
       method: "DELETE",
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     setRecords((prevRecords) => prevRecords.filter((el) => el._id !== id));
   }

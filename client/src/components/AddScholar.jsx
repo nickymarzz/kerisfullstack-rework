@@ -47,7 +47,7 @@ export default function Record() {
         });
 
         if (record.image) {
-          setPreview(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/uploads/${record.image}`);
+          setPreview(record.image.startsWith('http') ? record.image : `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/uploads/${record.image}`);
         }
       } catch (error) {
         console.error(error);
@@ -131,11 +131,13 @@ export default function Record() {
       if (!params.id) {
         response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/`, {
           method: "POST",
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           body: formData,
         });
       } else {
         response = await fetch(`${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/${params.id}`, {
           method: "PATCH",
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           body: formData,
         });
       }

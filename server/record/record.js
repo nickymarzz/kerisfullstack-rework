@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import db from "../db/connection.js";
 import { uploadToSupabase, deleteFromSupabase } from "../db/supabase.js";
+import { authMiddleware } from "../api/auth.js";
 import { ObjectId } from "mongodb";
 import dotenv from "dotenv";
 
@@ -85,7 +86,7 @@ router.get("/:id", async (req, res) => {
  */
 
 // Add new scholar (with optional image upload to Supabase Storage)
-router.post("/", upload.single("image"), async (req, res) => {
+router.post("/", authMiddleware, upload.single("image"), async (req, res) => {
   try {
     let imageUrl = null;
 
@@ -129,7 +130,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 });
 
 // Update a scholar by ID (with optional image upload to Supabase Storage)
-router.patch("/:id", upload.single("image"), async (req, res) => {
+router.patch("/:id", authMiddleware, upload.single("image"), async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
     const collection = await db.collection("scholar_table");
@@ -214,7 +215,7 @@ router.patch("/:id", upload.single("image"), async (req, res) => {
 });
 
 // Delete a scholar by ID
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
     const collection = await db.collection("scholar_table");
@@ -246,7 +247,7 @@ router.delete("/:id", async (req, res) => {
  */
 
 // Add new sponsor (with optional image upload to Supabase Storage)
-router.post("/sponsors", upload.single("image"), async (req, res) => {
+router.post("/sponsors", authMiddleware, upload.single("image"), async (req, res) => {
   try {
     let imageUrl = null;
 
@@ -299,7 +300,7 @@ router.post("/sponsors", upload.single("image"), async (req, res) => {
 });
 
 // Update a sponsor by ID (with optional image upload to Supabase Storage)
-router.patch("/sponsors/:id", upload.single("image"), async (req, res) => {
+router.patch("/sponsors/:id", authMiddleware, upload.single("image"), async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
     const collection = await db.collection("sponsor_table");
@@ -395,7 +396,7 @@ router.patch("/sponsors/:id", upload.single("image"), async (req, res) => {
 });
 
 // Delete a sponsor by ID
-router.delete("/sponsors/:id", async (req, res) => {
+router.delete("/sponsors/:id", authMiddleware, async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
     const collection = await db.collection("sponsor_table");

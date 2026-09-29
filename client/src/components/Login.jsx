@@ -4,15 +4,39 @@ import Cookies from "js-cookie";
 
 const Login = () => {
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (password === "ajakajakpiqim2023") {
-      Cookies.set("user", "admin", { expires: 0.02 }); // 30 minutes (0.02 days)
-      navigate("/admin");
-    } else {
-      alert("Incorrect password!");
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store JWT token for API requests
+        localStorage.setItem("token", data.token);
+        // Keep cookie for ProtectedLayout compatibility
+        Cookies.set("user", "admin", { expires: 0.02 }); // 30 minutes (0.02 days)
+        navigate("/admin");
+      } else {
+        alert(data.error || "Incorrect password!");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Failed to connect to server. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -27,8 +51,12 @@ const Login = () => {
           placeholder="Enter Password"
           className="border p-2 w-full"
         />
-        <button type="submit" className="mt-2 bg-blue-500 text-white px-4 py-2 rounded">
-          Login
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="mt-2 bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
+        >
+          {isLoading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>

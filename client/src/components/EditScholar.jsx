@@ -101,6 +101,7 @@ export default function EditScholar() {
         `${import.meta.env.VITE_REACT_APP_BACKEND_BASEURL}/${params.id}`,
         {
           method: "PATCH",
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           body: formData,
         }
       );
