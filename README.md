@@ -1,6 +1,5 @@
 # KERIS Full-Stack
 
-![KERIS](https://github.com/piqim/kerisfullstack/raw/main/assets/logo.png)  
 A modernized full-stack web application for KERIS, an initiative aimed at educating students in Kelantan about higher education and scholarships.
 
 ## Preview Access
