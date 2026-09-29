@@ -1,23 +1,14 @@
 import express from "express";
 import multer from "multer";
-import AWS from "aws-sdk";
 import db from "../db/connection.js";
+import { uploadToSupabase, deleteFromSupabase } from "../db/supabase.js";
 import { ObjectId } from "mongodb";
 import dotenv from "dotenv";
 
 dotenv.config();
 const router = express.Router();
 
-// AWS S3 Configuration
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
-});
-
-const s3 = new AWS.S3();
-
-// Multer Storage (Handles file upload)
+// Multer Storage (Handles file upload in memory)
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
@@ -93,21 +84,17 @@ router.get("/:id", async (req, res) => {
  * SCHOLAR SERVER ACTIONS
  */
 
-// Add new scholar (with optional image upload)
+// Add new scholar (with optional image upload to Supabase Storage)
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     let imageUrl = null;
 
     if (req.file) {
-      const uploadParams = {
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: `uploads/${Date.now()}_${req.file.originalname}`,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype,
-      };
-
-      const uploadResult = await s3.upload(uploadParams).promise();
-      imageUrl = uploadResult.Location;
+      imageUrl = await uploadToSupabase(
+        req.file.buffer,
+        req.file.originalname,
+        req.file.mimetype
+      );
     }
 
     // Parse array fields
@@ -125,11 +112,11 @@ router.post("/", upload.single("image"), async (req, res) => {
       sponsor: req.body.sponsor,
       major: majors,
       institution: institutions,
-      availability: availability, // This is now properly converted to boolean
+      availability: availability,
       image: imageUrl,
     };
 
-    console.log('Creating new record:', newRecord); // Debug log
+    console.log('Creating new scholar record:', newRecord);
 
     const collection = await db.collection("scholar_table");
     const result = await collection.insertOne(newRecord);
@@ -141,7 +128,7 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-// Update a scholar by ID (with optional image upload)
+// Update a scholar by ID (with optional image upload to Supabase Storage)
 router.patch("/:id", upload.single("image"), async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
@@ -188,29 +175,21 @@ router.patch("/:id", upload.single("image"), async (req, res) => {
       hasUpdates = true;
     }
 
-    // Handle image update
+    // Handle image update with Supabase Storage
     if (req.file) {
-      const uploadParams = {
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: `uploads/${Date.now()}_${req.file.originalname}`,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype,
-      };
+      const newUrl = await uploadToSupabase(
+        req.file.buffer,
+        req.file.originalname,
+        req.file.mimetype
+      );
 
-      const uploadResult = await s3.upload(uploadParams).promise();
-      updates.$set.image = uploadResult.Location;
-      hasUpdates = true;
+      if (newUrl) {
+        updates.$set.image = newUrl;
+        hasUpdates = true;
 
-      // Delete old image if it exists
-      if (currentRecord.image) {
-        try {
-          const oldImageKey = currentRecord.image.split('/').pop();
-          await s3.deleteObject({
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: `uploads/${oldImageKey}`,
-          }).promise();
-        } catch (deleteError) {
-          console.error("Error deleting old image:", deleteError);
+        // Delete old image if it exists
+        if (currentRecord.image) {
+          await deleteFromSupabase(currentRecord.image);
         }
       }
     } else if (req.body.imageAction === "remove") {
@@ -218,15 +197,7 @@ router.patch("/:id", upload.single("image"), async (req, res) => {
       hasUpdates = true;
       
       if (currentRecord.image) {
-        try {
-          const oldImageKey = currentRecord.image.split('/').pop();
-          await s3.deleteObject({
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: `uploads/${oldImageKey}`,
-          }).promise();
-        } catch (deleteError) {
-          console.error("Error deleting old image:", deleteError);
-        }
+        await deleteFromSupabase(currentRecord.image);
       }
     }
 
@@ -248,32 +219,19 @@ router.delete("/:id", async (req, res) => {
     const query = { _id: new ObjectId(req.params.id) };
     const collection = await db.collection("scholar_table");
     
-    // First get the record to check if it has an image
     const currentRecord = await collection.findOne(query);
-    
     if (!currentRecord) {
       return res.status(404).send("Record not found");
     }
 
-    // Delete the record from MongoDB
-    const result = await collection.deleteOne(query);
-
-    if (result.deletedCount === 0) {
-      return res.status(404).send("Record not found");
+    // Delete associated image from Supabase Storage
+    if (currentRecord.image) {
+      await deleteFromSupabase(currentRecord.image);
     }
 
-    // If the record had an image, delete it from S3
-    if (currentRecord.image) {
-      try {
-        const oldImageKey = currentRecord.image.split('/').pop();
-        await s3.deleteObject({
-          Bucket: process.env.AWS_BUCKET_NAME,
-          Key: `uploads/${oldImageKey}`,
-        }).promise();
-      } catch (deleteError) {
-        console.error("Error deleting old image:", deleteError);
-        // We still proceed even if image deletion fails
-      }
+    const result = await collection.deleteOne(query);
+    if (result.deletedCount === 0) {
+      return res.status(404).send("Record not found");
     }
 
     res.status(200).json({ message: "Record deleted successfully" });
@@ -287,21 +245,17 @@ router.delete("/:id", async (req, res) => {
  * SPONSOR SERVER ACTIONS
  */
 
-// Add new sponsor (with optional image upload)
+// Add new sponsor (with optional image upload to Supabase Storage)
 router.post("/sponsors", upload.single("image"), async (req, res) => {
   try {
     let imageUrl = null;
 
     if (req.file) {
-      const uploadParams = {
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: `uploads/${Date.now()}_${req.file.originalname}`,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype,
-      };
-
-      const uploadResult = await s3.upload(uploadParams).promise();
-      imageUrl = uploadResult.Location;
+      imageUrl = await uploadToSupabase(
+        req.file.buffer,
+        req.file.originalname,
+        req.file.mimetype
+      );
     }
 
     // Safely parse array fields
@@ -323,8 +277,8 @@ router.post("/sponsors", upload.single("image"), async (req, res) => {
     const newSponsor = {
       sponsor: req.body.sponsor,
       status: status,
-      time_start: new Date(req.body.time_start),
-      time_end: new Date(req.body.time_end),
+      time_start: req.body.time_start ? new Date(req.body.time_start) : null,
+      time_end: req.body.time_end ? new Date(req.body.time_end) : null,
       image: imageUrl,
       programs: programs,
       majors_offered: majors_offered,
@@ -344,7 +298,7 @@ router.post("/sponsors", upload.single("image"), async (req, res) => {
   }
 });
 
-// Update a sponsor by ID (with optional image upload)
+// Update a sponsor by ID (with optional image upload to Supabase Storage)
 router.patch("/sponsors/:id", upload.single("image"), async (req, res) => {
   try {
     const query = { _id: new ObjectId(req.params.id) };
@@ -376,7 +330,7 @@ router.patch("/sponsors/:id", upload.single("image"), async (req, res) => {
       }
     });
 
-    // Handle array fields - more robust handling
+    // Handle array fields
     if (req.body.majors_offered !== undefined) {
       let majorsArray;
       if (typeof req.body.majors_offered === 'string') {
@@ -403,29 +357,20 @@ router.patch("/sponsors/:id", upload.single("image"), async (req, res) => {
       hasUpdates = true;
     }
 
-    // Handle image update
+    // Handle image update with Supabase Storage
     if (req.file) {
-      const uploadParams = {
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: `uploads/${Date.now()}_${req.file.originalname}`,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype,
-      };
+      const newUrl = await uploadToSupabase(
+        req.file.buffer,
+        req.file.originalname,
+        req.file.mimetype
+      );
 
-      const uploadResult = await s3.upload(uploadParams).promise();
-      updates.$set.image = uploadResult.Location;
-      hasUpdates = true;
+      if (newUrl) {
+        updates.$set.image = newUrl;
+        hasUpdates = true;
 
-      // Delete old image if it exists
-      if (currentSponsor.image) {
-        try {
-          const oldImageKey = currentSponsor.image.split('/').pop();
-          await s3.deleteObject({
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: `uploads/${oldImageKey}`,
-          }).promise();
-        } catch (deleteError) {
-          console.error("Error deleting old image:", deleteError);
+        if (currentSponsor.image) {
+          await deleteFromSupabase(currentSponsor.image);
         }
       }
     } else if (req.body.imageAction === "remove") {
@@ -433,15 +378,7 @@ router.patch("/sponsors/:id", upload.single("image"), async (req, res) => {
       hasUpdates = true;
       
       if (currentSponsor.image) {
-        try {
-          const oldImageKey = currentSponsor.image.split('/').pop();
-          await s3.deleteObject({
-            Bucket: process.env.AWS_BUCKET_NAME,
-            Key: `uploads/${oldImageKey}`,
-          }).promise();
-        } catch (deleteError) {
-          console.error("Error deleting old image:", deleteError);
-        }
+        await deleteFromSupabase(currentSponsor.image);
       }
     }
 
@@ -456,6 +393,7 @@ router.patch("/sponsors/:id", upload.single("image"), async (req, res) => {
     res.status(500).send("Error updating sponsor");
   }
 });
+
 // Delete a sponsor by ID
 router.delete("/sponsors/:id", async (req, res) => {
   try {
@@ -467,17 +405,9 @@ router.delete("/sponsors/:id", async (req, res) => {
       return res.status(404).send("Sponsor not found");
     }
 
-    // Delete associated image if it exists
+    // Delete associated image from Supabase Storage
     if (sponsor.image) {
-      try {
-        const imageKey = sponsor.image.split('/').pop();
-        await s3.deleteObject({
-          Bucket: process.env.AWS_BUCKET_NAME,
-          Key: `uploads/${imageKey}`,
-        }).promise();
-      } catch (deleteError) {
-        console.error("Error deleting sponsor image:", deleteError);
-      }
+      await deleteFromSupabase(sponsor.image);
     }
 
     const result = await collection.deleteOne(query);
