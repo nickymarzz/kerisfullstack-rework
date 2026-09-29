@@ -8,11 +8,29 @@ From the project root directory (`kerisfullstack/`), you can start both the back
 # 1. Install all dependencies (both server and client)
 npm run install:all
 
-# 2. Run both server and client concurrently
+# 2. Seed database with initial scholarships & scholars (optional)
+npm run seed
+
+# 3. Run both server and client concurrently
 npm run dev
 ```
 
 The server will start on `http://localhost:5050` and the client on `http://localhost:5173`.
+
+---
+
+## Database Seeding
+
+To populate MongoDB with realistic Malaysian scholarships (Khazanah, PETRONAS, BNM, JPA, Sime Darby, Shell) and mentor scholars:
+
+```sh
+# From root directory:
+npm run seed
+
+# Or directly in server/:
+cd server
+npm run seed
+```
 
 ---
 

@@ -154,7 +154,17 @@ npm run install:all
 
 ---
 
-### Step 4: Run the Application
+### Step 4: Seed the Database (Optional)
+
+Populate MongoDB with realistic sample scholarships (Khazanah, PETRONAS, BNM, JPA, Sime Darby, Shell) and scholar mentor profiles:
+
+```sh
+npm run seed
+```
+
+---
+
+### Step 5: Run the Application
 
 #### Option A: Unified Runner (Recommended)
 
