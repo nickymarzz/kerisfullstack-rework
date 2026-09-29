@@ -24,9 +24,9 @@ const Home = () => {
   return (
     <div>
       {/* HERO Section with Parallax Background */}
-      <section id="hero">
+      <section id="hero" className="w-full">
         <header
-          className="relative h-[90%] flex items-center justify-center text-center text-white"
+          className="relative min-h-[85vh] flex items-center justify-center text-center text-white py-20 px-4"
           style={{
             backgroundImage: `url(${bgImg})`,
             backgroundAttachment: "fixed",
@@ -34,26 +34,26 @@ const Home = () => {
             backgroundPosition: "center",
           }}
         >
-          {/* Background overlay - now only covers the background image */}
-          <div className="absolute inset-0 bg-white bg-opacity-80"></div>
+          {/* Background overlay - covers background image */}
+          <div className="absolute inset-0 bg-white/80"></div>
 
           {/* Content container - relative positioning brings it above the overlay */}
-          <div className="relative z-10 p-4 sm:p-6 rounded-lg min-w-40 max-w-80 md:max-w-lg mx-auto">
-            <h1 className="text-xl text-[--color-primary] font-bold sm:text-6xl md:text-8xl">
+          <div className="relative z-10 p-6 sm:p-10 rounded-2xl max-w-2xl mx-auto flex flex-col items-center">
+            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-[--color-primary] font-black tracking-tight">
               KERIS
             </h1>
-            <p className="text-lg text-[--color-dark] mt-2 font-semibold md:text-2xl">
+            <p className="text-xl sm:text-2xl md:text-3xl text-[--color-dark] mt-4 font-bold">
               For <span className="text-[--color-primary]">scholars</span>, by{" "}
               <span className="text-[--color-primary]">scholars.</span>
             </p>
 
             {/* WELCOMING BUTTON */}
-            <div>
+            <div className="mt-8">
               <a
                 href="#resource"
                 data-aos="fade-up"
                 data-aos-delay="300"
-                className="btn-get-started scrollto text-[--color-dark] mt-4"
+                className="btn-get-started scrollto text-[--color-dark] inline-block shadow-md hover:shadow-lg"
               >
                 View the new <b>Dashboard</b>!
               </a>
