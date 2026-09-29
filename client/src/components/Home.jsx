@@ -118,40 +118,42 @@ const Home = () => {
           </p>
 
           <div className="mt-8 grid gap-4 md:grid-cols-2">
-            <NavLink to="/scholarship">
-              <a className="flex items-center p-4 bg-gray-100 hover:bg-gray-50 rounded-lg shadow">
-                <div className="p-3 bg-gray-200 rounded-md">
-                  <span className="text-red-500 text-2xl cursor-pointer">
-                    📖
-                  </span>
-                </div>
-                <div className="ml-4 text-left">
-                  <h3 className="text-lg text-[--color-dark] font-semibold">
-                    Scholarship Dashboard
-                  </h3>
-                  <p className="text-gray-500 text-sm">
-                    Intro to navigating the scholarship available.
-                  </p>
-                </div>
-              </a>
+            <NavLink
+              to="/scholarship"
+              className="flex items-center p-4 bg-gray-100 hover:bg-gray-50 rounded-lg shadow"
+            >
+              <div className="p-3 bg-gray-200 rounded-md">
+                <span className="text-red-500 text-2xl cursor-pointer">
+                  📖
+                </span>
+              </div>
+              <div className="ml-4 text-left">
+                <h3 className="text-lg text-[--color-dark] font-semibold">
+                  Scholarship Dashboard
+                </h3>
+                <p className="text-gray-500 text-sm">
+                  Intro to navigating the scholarship available.
+                </p>
+              </div>
             </NavLink>
 
-            <NavLink to="/scholar">
-              <a className="flex items-center p-4 bg-gray-100 hover:bg-gray-50 rounded-lg shadow">
-                <div className="p-3 bg-gray-200 rounded-md">
-                  <span className="text-red-500 text-2xl cursor-pointer">
-                    👥
-                  </span>
-                </div>
-                <div className="ml-4 text-left">
-                  <h3 className="text-lg text-[--color-dark] font-semibold">
-                    Scholars Dashboard
-                  </h3>
-                  <p className="text-gray-500 text-sm">
-                    Meet some of our prestigious scholars from Kelantan!
-                  </p>
-                </div>
-              </a>
+            <NavLink
+              to="/scholar"
+              className="flex items-center p-4 bg-gray-100 hover:bg-gray-50 rounded-lg shadow"
+            >
+              <div className="p-3 bg-gray-200 rounded-md">
+                <span className="text-red-500 text-2xl cursor-pointer">
+                  👥
+                </span>
+              </div>
+              <div className="ml-4 text-left">
+                <h3 className="text-lg text-[--color-dark] font-semibold">
+                  Scholars Dashboard
+                </h3>
+                <p className="text-gray-500 text-sm">
+                  Meet some of our prestigious scholars from Kelantan!
+                </p>
+              </div>
             </NavLink>
 
             <a className="flex items-center p-4 bg-gray-100 hover:bg-gray-50 rounded-lg shadow" 

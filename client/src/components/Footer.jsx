@@ -1,7 +1,26 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Footer = () => {
+  const location = useLocation();
+
+  const handleHomeClick = (e) => {
+    if (location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const handleAboutClick = (e) => {
+    if (location.pathname === "/") {
+      e.preventDefault();
+      const aboutEl = document.getElementById("about");
+      if (aboutEl) {
+        aboutEl.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <footer id="footer" className="w-full">
       <div className="container py-6 mx-auto px-2">
@@ -15,12 +34,20 @@ const Footer = () => {
           {/* Footer Links */}
           <div className="w-full">
             <nav className="footer-links text-center pt-2">
-              <NavLink to="/" className="scrollto px-2">
+              <Link
+                to="/"
+                onClick={handleHomeClick}
+                className="px-3 hover:text-white cursor-pointer transition font-medium"
+              >
                 Home
-              </NavLink>
-              <NavLink to="/#about" className="scrollto px-2">
+              </Link>
+              <Link
+                to="/#about"
+                onClick={handleAboutClick}
+                className="px-3 hover:text-white cursor-pointer transition font-medium"
+              >
                 About
-              </NavLink>
+              </Link>
             </nav>
           </div>
         </div>

@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
+  const location = useLocation();
   const [mobileNavActive, setMobileNavActive] = useState(false);
   const [mobileDropdownActive, setMobileDropdownActive] = useState(false);
 
@@ -12,6 +13,16 @@ export default function Navbar() {
 
   const toggleMobileDropdown = () => {
     setMobileDropdownActive(!mobileDropdownActive);
+  };
+
+  const handleHashClick = (e, hashId) => {
+    if (location.pathname === "/") {
+      e.preventDefault();
+      const el = document.getElementById(hashId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   };
 
   return (
@@ -33,9 +44,13 @@ export default function Navbar() {
         <nav className="nav-menu hidden md:block text-white">
           <ul className="flex space-x-8">
             <li>
-              <a href="#about" className="hover:text-opacity-80 transition">
+              <Link
+                to="/#about"
+                onClick={(e) => handleHashClick(e, "about")}
+                className="hover:text-opacity-80 transition"
+              >
                 About
-              </a>
+              </Link>
             </li>
             <li className="relative group">
               <span className="cursor-pointer hover:text-opacity-80 transition">
@@ -82,14 +97,22 @@ export default function Navbar() {
             </li>
 
             <li>
-              <a href="#faq" className="hover:text-opacity-80 transition">
+              <Link
+                to="/#faq"
+                onClick={(e) => handleHashClick(e, "faq")}
+                className="hover:text-opacity-80 transition"
+              >
                 FAQ
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#contact" className="hover:text-opacity-80 transition">
+              <Link
+                to="/#contact"
+                onClick={(e) => handleHashClick(e, "contact")}
+                className="hover:text-opacity-80 transition"
+              >
                 Contact Us
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
@@ -109,9 +132,16 @@ export default function Navbar() {
           mobileNavActive ? "translate-x-0" : "translate-x-full"
         } md:hidden`}
       >
-        <a href="#about" className="text-xl py-2" onClick={toggleMobileNav}>
+        <Link
+          to="/#about"
+          className="text-xl py-2"
+          onClick={(e) => {
+            handleHashClick(e, "about");
+            toggleMobileNav();
+          }}
+        >
           About
-        </a>
+        </Link>
 
         {/* Mobile Dropdown Toggle */}
         <div className="text-xl py-2 cursor-pointer flex flex-col items-center">
@@ -140,21 +170,45 @@ export default function Navbar() {
             <NavLink to="/scholarship" onClick={toggleMobileNav}>
               <p className="py-2 text-lg">Scholarship Status</p>
             </NavLink>
-            <a href="https://drive.google.com/drive/folders/1nEYxi9TDSJqKcg304CggB9o2FfurIg_l?usp=sharing" target="_blank" rel="noopener noreferrer" onClick={toggleMobileNav}>
+            <a
+              href="https://drive.google.com/drive/folders/1nEYxi9TDSJqKcg304CggB9o2FfurIg_l?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={toggleMobileNav}
+            >
               <p className="py-2 text-lg">Essay Repository</p>
             </a>
-            <a href="https://drive.google.com/drive/folders/1qlGAclESRxLpnt5gZbZzXYVkyayEuLfb?usp=sharing" target="_blank" rel="noopener noreferrer" onClick={toggleMobileNav}>
+            <a
+              href="https://drive.google.com/drive/folders/1qlGAclESRxLpnt5gZbZzXYVkyayEuLfb?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={toggleMobileNav}
+            >
               <p className="py-2 text-lg">Resume Template</p>
             </a>
           </div>
         </div>
 
-        <a href="#faq" className="text-xl py-2" onClick={toggleMobileNav}>
+        <Link
+          to="/#faq"
+          className="text-xl py-2"
+          onClick={(e) => {
+            handleHashClick(e, "faq");
+            toggleMobileNav();
+          }}
+        >
           FAQ
-        </a>
-        <a href="#contact" className="text-xl py-2" onClick={toggleMobileNav}>
+        </Link>
+        <Link
+          to="/#contact"
+          className="text-xl py-2"
+          onClick={(e) => {
+            handleHashClick(e, "contact");
+            toggleMobileNav();
+          }}
+        >
           Contact Us
-        </a>
+        </Link>
       </div>
     </header>
   );
