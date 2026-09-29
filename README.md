@@ -60,6 +60,7 @@ KERIS Full-Stack is a web platform designed to provide students with resources, 
 ## Route Map
 
 ### Client Routes (Public)
+
 * `/` — Home Page (Hero, Mission, Highlights)
 * `/scholars` — Scholar Mentors Directory
 * `/scholars/:id` — Scholar Detail Profile
@@ -67,6 +68,7 @@ KERIS Full-Stack is a web platform designed to provide students with resources, 
 * `/scholarships/:id` — Scholarship Detail
 
 ### Admin Routes (Protected)
+
 * `/login` — Admin Authentication
 * `/admin` — Admin Dashboard
 * `/admin/scholars` — Manage Scholars (Add / Edit / Delete)
@@ -126,15 +128,19 @@ cd kerisfullstack-rework
 ### Step 2: Configure Environment Variables
 
 1. **Backend (`server/.env`)**:
+
    ```sh
    cp server/.env.example server/.env
    ```
+
    Fill in your MongoDB URI, Supabase credentials, and admin credentials in `server/.env`.
 
 2. **Frontend (`client/.env`)**:
+
    ```sh
    cp client/.env.example client/.env
    ```
+
    Default is: `VITE_REACT_APP_BACKEND_BASEURL=http://localhost:5050`
 
 ---
@@ -165,12 +171,14 @@ npm run dev
 #### Option B: Separate Terminals
 
 * **Server Terminal**:
+
   ```sh
   cd server
   npm run dev
   ```
 
 * **Client Terminal**:
+
   ```sh
   cd client
   npm run dev
@@ -181,6 +189,7 @@ npm run dev
 ## Environment Variables
 
 ### `server/.env`
+
 | Variable                    | Description                         | Example / Default                                          |
 | --------------------------- | ----------------------------------- | ---------------------------------------------------------- |
 | `PORT`                      | Backend server port                 | `5050`                                                     |
@@ -194,6 +203,7 @@ npm run dev
 | `CLIENT_URL`                | Frontend origin allowed for CORS    | `http://localhost:5173`                                    |
 
 ### `client/.env`
+
 | Variable                         | Description                    | Default                 |
 | -------------------------------- | ------------------------------ | ----------------------- |
 | `VITE_REACT_APP_BACKEND_BASEURL` | URL of the running backend API | `http://localhost:5050` |
