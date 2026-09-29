@@ -46,14 +46,14 @@ KERIS Full-Stack is a web platform designed to provide students with resources, 
 
 ## Tech Stack
 
-| Layer | Technology | Details |
-|---|---|---|
-| **Frontend** | React 19, Vite 6, TailwindCSS | SPA with modern React hooks, TipTap editor, and responsive styling |
-| **Backend** | Node.js, Express.js | REST API with native file watching (`node --watch`) |
-| **Database** | MongoDB Atlas & Compass | Document storage with official MongoDB driver (clean, no heavy ORM) |
-| **File Storage** | Supabase Storage (`@supabase/supabase-js`) | High-speed cloud image bucket storage |
-| **Authentication** | Built-in Node `crypto` / HS256 JWT | Secure token-based API authentication for admin actions |
-| **Hosting** | Vercel (Frontend), Render / Railway (Backend) | Free-tier compatible cloud hosting |
+| Layer              | Technology                                    | Details                                                             |
+| ------------------ | --------------------------------------------- | ------------------------------------------------------------------- |
+| **Frontend**       | React 19, Vite 6, TailwindCSS                 | SPA with modern React hooks, TipTap editor, and responsive styling  |
+| **Backend**        | Node.js, Express.js                           | REST API with native file watching (`node --watch`)                 |
+| **Database**       | MongoDB Atlas & Compass                       | Document storage with official MongoDB driver (clean, no heavy ORM) |
+| **File Storage**   | Supabase Storage (`@supabase/supabase-js`)    | High-speed cloud image bucket storage                               |
+| **Authentication** | Built-in Node `crypto` / HS256 JWT            | Secure token-based API authentication for admin actions             |
+| **Hosting**        | Vercel (Frontend), Render / Railway (Backend) | Free-tier compatible cloud hosting                                  |
 
 ---
 
@@ -181,21 +181,21 @@ npm run dev
 ## Environment Variables
 
 ### `server/.env`
-| Variable | Description | Example / Default |
-|---|---|---|
-| `PORT` | Backend server port | `5050` |
-| `MONGODB_URI` | MongoDB connection URI | `mongodb+srv://...` or `mongodb://127.0.0.1:27017/kerisdb` |
-| `SUPABASE_URL` | Supabase project URL | `https://xxxx.supabase.co` |
-| `SUPABASE_ANON_KEY` | Supabase Anon Key | `sb_publishable_...` |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase Service Role Key | `sb_secret_...` |
-| `SUPABASE_BUCKET` | Supabase Storage bucket name | `keris-uploads` |
-| `ADMIN_PASSWORD` | Password required to log in | Your chosen password |
-| `JWT_SECRET` | Secret key used to sign auth tokens | Any secure random string |
-| `CLIENT_URL` | Frontend origin allowed for CORS | `http://localhost:5173` |
+| Variable                    | Description                         | Example / Default                                          |
+| --------------------------- | ----------------------------------- | ---------------------------------------------------------- |
+| `PORT`                      | Backend server port                 | `5050`                                                     |
+| `MONGODB_URI`               | MongoDB connection URI              | `mongodb+srv://...` or `mongodb://127.0.0.1:27017/kerisdb` |
+| `SUPABASE_URL`              | Supabase project URL                | `https://xxxx.supabase.co`                                 |
+| `SUPABASE_ANON_KEY`         | Supabase Anon Key                   | `sb_publishable_...`                                       |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase Service Role Key           | `sb_secret_...`                                            |
+| `SUPABASE_BUCKET`           | Supabase Storage bucket name        | `keris-uploads`                                            |
+| `ADMIN_PASSWORD`            | Password required to log in         | Your chosen password                                       |
+| `JWT_SECRET`                | Secret key used to sign auth tokens | Any secure random string                                   |
+| `CLIENT_URL`                | Frontend origin allowed for CORS    | `http://localhost:5173`                                    |
 
 ### `client/.env`
-| Variable | Description | Default |
-|---|---|---|
+| Variable                         | Description                    | Default                 |
+| -------------------------------- | ------------------------------ | ----------------------- |
 | `VITE_REACT_APP_BACKEND_BASEURL` | URL of the running backend API | `http://localhost:5050` |
 
 ---
