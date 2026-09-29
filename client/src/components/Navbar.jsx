@@ -23,9 +23,9 @@ export default function Navbar() {
         {/* Logo */}
         <div className="logo">
           <h1 className="text-white">
-            <a href="/">
+            <Link to="/">
               <span>KERIS</span>
-            </a>
+            </Link>
           </h1>
         </div>
 
@@ -37,37 +37,49 @@ export default function Navbar() {
                 About
               </a>
             </li>
-              <li className="relative group">
-              <a href="#resource">
-                <a className="hover:text-opacity-80 transition">Resources</a>
-                <ul className="absolute hidden group-hover:block bg-[#F16767] p-2 rounded shadow-lg min-w-[200px] z-50">
-                  <NavLink to="/scholar">
-                    <li>
-                      <a className="block p-2 hover:bg-gray-100 hover:rounded">
-                        Meet Your Scholars
-                      </a>
-                    </li>
+            <li className="relative group">
+              <span className="cursor-pointer hover:text-opacity-80 transition">
+                Resources
+              </span>
+              <ul className="absolute hidden group-hover:block bg-[#F16767] p-2 rounded shadow-lg min-w-[200px] z-50">
+                <li>
+                  <NavLink
+                    to="/scholar"
+                    className="block p-2 hover:bg-gray-100 hover:text-gray-900 hover:rounded"
+                  >
+                    Meet Your Scholars
                   </NavLink>
-                  <NavLink to="/scholarship">
-                    <li>
-                      <a className="block p-2 hover:bg-gray-100 hover:rounded">
-                        Scholarship Status
-                      </a>
-                    </li>
+                </li>
+                <li>
+                  <NavLink
+                    to="/scholarship"
+                    className="block p-2 hover:bg-gray-100 hover:text-gray-900 hover:rounded"
+                  >
+                    Scholarship Status
                   </NavLink>
-                  <a className="block p-2 hover:bg-gray-100 hover:rounded" href="https://drive.google.com/drive/folders/1nEYxi9TDSJqKcg304CggB9o2FfurIg_l?usp=sharing" target="_blank" rel="noopener noreferrer">
-                    <div>
-                      Essay Repository
-                    </div>
+                </li>
+                <li>
+                  <a
+                    className="block p-2 hover:bg-gray-100 hover:text-gray-900 hover:rounded"
+                    href="https://drive.google.com/drive/folders/1nEYxi9TDSJqKcg304CggB9o2FfurIg_l?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Essay Repository
                   </a>
-                  <a className="block p-2 hover:bg-gray-100 hover:rounded" href="https://drive.google.com/drive/folders/1qlGAclESRxLpnt5gZbZzXYVkyayEuLfb?usp=sharing" target="_blank" rel="noopener noreferrer">
-                    <div>
-                      Resume Template
-                    </div>
+                </li>
+                <li>
+                  <a
+                    className="block p-2 hover:bg-gray-100 hover:text-gray-900 hover:rounded"
+                    href="https://drive.google.com/drive/folders/1qlGAclESRxLpnt5gZbZzXYVkyayEuLfb?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Resume Template
                   </a>
-                </ul>
-                </a>
-              </li>
+                </li>
+              </ul>
+            </li>
 
             <li>
               <a href="#faq" className="hover:text-opacity-80 transition">

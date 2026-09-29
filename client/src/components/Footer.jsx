@@ -15,13 +15,11 @@ const Footer = () => {
           {/* Footer Links */}
           <div className="w-full">
             <nav className="footer-links text-center pt-2">
-              <NavLink to="/">
-                <a className="scrollto px-2">
-                  Home
-                </a>
+              <NavLink to="/" className="scrollto px-2">
+                Home
               </NavLink>
-              <NavLink to="/#about">
-                <a className="scrollto px-2">About</a>
+              <NavLink to="/#about" className="scrollto px-2">
+                About
               </NavLink>
             </nav>
           </div>
