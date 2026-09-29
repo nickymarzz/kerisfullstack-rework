@@ -2,7 +2,9 @@
   "scss.lint.unknownAtRules": "ignore",
   "css.lint.unknownAtRules": "ignore",
   "css.lint.compatibleVendorPrefixes": "ignore",
+  "css.lint.vendorPrefix": "ignore",
   "css.lint.propertyIgnoredDueToDisplay": "ignore",
   "scss.lint.compatibleVendorPrefixes": "ignore",
+  "scss.lint.vendorPrefix": "ignore",
   "scss.lint.propertyIgnoredDueToDisplay": "ignore"
 }
